@@ -10,5 +10,32 @@ package Models;
  * @author PCHP
  */
 public class User {
+
+    private String user, pass, msj;
+
+    public User() {
+        this.user = "";
+        this.pass = "";
+    }
+
+    public User(String user, String pass) {
+        this.user = user;
+        this.pass = pass;
+    }
+
+    public String getUser() {
+        return this.user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
     
+    public String getPass() {
+        return this.pass;
+    }
+    
+    public void setPass(String pass){
+        this.pass = user;
+    }
 }
