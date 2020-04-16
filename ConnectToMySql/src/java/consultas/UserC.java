@@ -1,14 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package consultas;
+import Connection.ConnectionClass;
+import Models.User;
+import java.sql.*;
 
-/**
- *
- * @author PCHP
- */
 public class UserC {
-    
-}
+
+    public User ComprobarUsuario(String username, String password) throws SQLException {
+        User objUser = new User();
+        ConnectionClass objConn = new ConnectionClass();
+        Connection conn = null;
+        try {            
+            conn = objConn.GetConnection();
+            Statement stmt = conn.createStatement();
+            String sql="SELECT Login, Passlogin FROM sesiones WHERE Login = '" + username + "' and PassLogin = '"+ password + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                objUser.setUser(rs.getString("Login"));
+                objUser.setPass(rs.getString("PassLogin"));
+            }
+            
+        } catch (Exception ex) {   
+            System.out.println("VendorError: " + ex.getMessage());
+        }
+        finally {
+            conn.close();
+        }
+        return objUser;
+    }
+    }

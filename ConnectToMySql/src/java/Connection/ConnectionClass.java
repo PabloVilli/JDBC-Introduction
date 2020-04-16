@@ -1,36 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 
-/**
- *
- * @author PCHP
- */
 public class ConnectionClass {
-        public void connectToAndQueryDatabase(String username, String password) {
 
+    Connection conn = null;
+
+    public Connection GetConnection() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Connection conn = null;
+        String url = "jdbc:mysql://localhost:3306/dbConnect?characterEncoding=latin1&useConfigs=maxPerformance";
         try {
-            Connection con = DriverManager.getConnection("jdbc:myDriver:dbConnect", username, password);
-
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT Login, Passlogin FROM sesiones");
-
-            while (rs.next()) {
-                String x = rs.getString("a");
-                String s = rs.getString("b");
-            }
-
-        } catch (Exception e) {
-
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            conn = (Connection) DriverManager.getConnection(url, "root", "admin");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage() + "    |    " + ex.getLocalizedMessage());
         }
-
+        return conn;
     }
+
 }

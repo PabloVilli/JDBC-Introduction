@@ -96,13 +96,13 @@
                     </div>
                     <div class="col-12">
                         <div class="form-group" id="user-group">
-                            <input type="text" name="user" id="idUser" class="form-control" placeholder="Usuario">
+                            <input type="text" name="IdUser" id="idUser" class="form-control" placeholder="Usuario">
                         </div>
                         <div class="form-group" id="pass-group">
-                            <input type="password" name="pass" id="idPass" class="form-control" placeholder="Contraseña">
+                            <input type="password" name="idPass" id="idPass" class="form-control" placeholder="Contraseña">
                         </div>
                         <button onclick="login();" class="btn btn-dark"><i class="fas fa-sign-in-alt"></i>   Ingresar</button>
-                        <button onclick="loginGuest();" class="btn btn-dark"><i class="fas fa-sign-in-alt"></i>   Invitado</button>
+                        <%--<button onclick="loginGuest();" class="btn btn-dark"><i class="fas fa-sign-in-alt"></i>   Invitado</button>--%>
                         <div class="col-12 forgot">
                             <a href="#">Olvide mi contraseña</a>
                         </div>
@@ -113,23 +113,47 @@
     </body>
     <script>
         function login() {
-            var user = document.getElementById("user").value;
-            var pass = document.getElementById("pass").value;
+            var user = document.getElementById("idUser").value;
+            var pass = document.getElementById("idPass").value;
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function () {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                 if (this.responseText == "404") {
+                     alert("Credenciales Incorrectas");
+                 } else {
                     location.href = this.responseText
+                 }                 
             }
-               xmlHttp.open("GET", "<%=request.getContextPath()%>/UserServlet?user=" + user + "&pass=" + pass, true);
+            xmlHttp.open("GET", "<%=request.getContextPath()%>/UserServlet?user=" + user + "&pass=" + pass, true);
             xmlHttp.send(null);
         }
     </script>
-    <script>
-        function loginGuest() {
-            location.href = "<%=request.getContextPath()%>/UserGuestServlet?";
-        }
-        </html>
+    <%--  <script>
+      function log() {
+          var user1 = document.getElementById("idUser").value;
+          var pass1 = document.getElementById("idPass").value;
+          let xhr = new XMLHttpRequest();
+          xhr.open("GET", "<%=request.getContextPath()%>/UserServlet?user=" + user1 + "&pass=" + pass1, true);
+          try {
+              xhr.send();
+              if (xhr.status != 200) {
+                  alert(`Error ${xhr.status}: ${xhr.statusText}`);
+              } else {
+                  alert(xhr.response);
+              }
+          } catch (err) { // instead of onerror
+              alert("Request failed");
+          }
+      }
+  </script>
+  <script>
+      function loginGuest() {
+         location.href = "<%=request.getContextPath()%>/UserGuestServlet?";
+      }
+  </script>
+    --%>
+</html>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>

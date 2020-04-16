@@ -5,8 +5,13 @@
  */
 package Servlets;
 
+import Models.User;
+import consultas.UserC;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,11 +33,18 @@ public class UserServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-           
-            
+            String user = request.getParameter("user");
+            String pass = request.getParameter("pass");
+            UserC objUserValid = new UserC();
+            User objUserData = objUserValid.ComprobarUsuario(user, pass);
+            if   (objUserData.getUser().trim().equals("")){
+                out.print("404");
+            }else{
+                out.print(request.getContextPath() + "/layout.jsp?resul=" + "Bienvenido " + objUserData.getUser());  
+            }
         }
     }
 
@@ -48,7 +60,11 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -62,7 +78,11 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
